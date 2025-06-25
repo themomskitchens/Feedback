@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Feedback Form</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: #fff8ec;
+      color: #333;
+      padding: 30px;
+    }
+    h2 {
+      color: #e07a5f;
+    }
+    form {
+      background: #fff;
+      border-radius: 10px;
+      padding: 25px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      max-width: 600px;
+      margin: auto;
+    }
+    label {
+      font-weight: 600;
+      margin-top: 15px;
+      display: block;
+    }
+    input, select, textarea {
+      width: 100%;
+      padding: 12px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      margin-top: 5px;
+      box-sizing: border-box;
+    }
+    button {
+      background: #e07a5f;
+      color: white;
+      padding: 12px 25px;
+      border: none;
+      border-radius: 6px;
+      font-size: 16px;
+      margin-top: 20px;
+      cursor: pointer;
+    }
+    .thanks {
+      text-align: center;
+      color: green;
+      font-weight: bold;
+      margin-top: 25px;
+      font-size: 18px;
+    }
+  </style>
+</head>
+<body>
+  <h2>We’d Love Your Feedback! 💬</h2>
+  <form id="feedbackForm">
+    <label>Name</label>
+    <input type="text" name="name" required>
+
+    <label>Order ID</label>
+    <input type="text" name="orderId" required>
+
+    <label>How would you rate your food?</label>
+    <select name="foodRating" required>
+      <option value="">-- Choose --</option>
+      <option value="5">⭐️⭐️⭐️⭐️⭐️ Excellent</option>
+      <option value="4">⭐️⭐️⭐️⭐️ Good</option>
+      <option value="3">⭐️⭐️⭐️ Okay</option>
+      <option value="2">⭐️⭐️ Poor</option>
+      <option value="1">⭐️ Bad</option>
+    </select>
+
+    <label>How was the service & delivery?</label>
+    <select name="serviceRating" required>
+      <option value="">-- Choose --</option>
+      <option value="5">Excellent</option>
+      <option value="4">Good</option>
+      <option value="3">Average</option>
+      <option value="2">Poor</option>
+      <option value="1">Very Poor</option>
+    </select>
+
+    <label>Any improvements you'd suggest?</label>
+    <textarea name="improvement" rows="3"></textarea>
+
+    <label>Additional comments</label>
+    <textarea name="message" rows="3"></textarea>
+
+    <button type="submit">Submit Feedback</button>
+  </form>
+
+  <div class="thanks" id="thanksMessage">Thanks for your valuable feedback! ❤️</div>
+
+  <script>
+    const form = document.getElementById("feedbackForm");
+    const thanks = document.getElementById("thanksMessage");
+
+    form.addEventListener("submit", function (e) {
+      e.preventDefault();
+      const formData = new FormData(form);
+      fetch("https://script.google.com/macros/s/AKfycbzyz-qb5d8dgxAVd4sPkhrF5LpEueEWKkd32O_utjxFlobEIBwFrOO5PQ222SLMKq4N/exec", {
+        method: "POST",
+        body: formData
+      }).then(() => {
+        form.reset();
+        form.style.display = "none";
+        thanks.style.display = "block";
+      }).catch(() => {
+        alert("There was an error submitting your feedback. Please try again later.");
+      });
+    });
+
+    // Auto-fill from URL params
+    const params = new URLSearchParams(window.location.search);
+    if (params.get("name")) form.name.value = decodeURIComponent(params.get("name"));
+    if (params.get("orderId")) form.orderId.value = decodeURIComponent(params.get("orderId"));
+  </script>
+</body>
+</html>
