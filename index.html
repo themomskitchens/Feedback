@@ -1,86 +1,144 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Feedback Form – Mom's Kitchen</title>
+  <title>Feedback Form</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <style>
-    body { font-family: Arial; padding: 20px; background-color: #fceee5; }
-    form { max-width: 500px; margin: auto; background: white; padding: 20px; border-radius: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
-    input, textarea, select { width: 100%; margin-bottom: 15px; padding: 8px; }
-    button { background-color: #e07b39; color: white; padding: 10px; border: none; width: 100%; font-size: 16px; cursor: pointer; border-radius: 5px; }
-    .success { color: green; }
-    .error { color: red; }
+    body {
+      margin: 0; padding: 20px;
+      background-color: #fff7e6;
+      font-family: 'Segoe UI', sans-serif;
+    }
+    .container {
+      background: white;
+      border-radius: 12px;
+      padding: 20px;
+      margin: 0 auto;
+      max-width: 480px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    h2 {
+      text-align: center;
+      color: #e07a5f;
+      margin-bottom: 16px;
+    }
+    label {
+      margin-top: 12px;
+      display: block;
+      font-weight: 600;
+      color: #333;
+    }
+    input, select, textarea, button {
+      width: 100%;
+      box-sizing: border-box;
+    }
+    input, select, textarea {
+      padding: 10px;
+      margin-top: 6px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 16px;
+    }
+    textarea {
+      resize: vertical;
+    }
+    button {
+      padding: 12px;
+      margin-top: 20px;
+      background: #e07a5f;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      font-size: 16px;
+      font-weight: bold;
+    }
+    button:active {
+      background: #cf6a4e;
+    }
+    .thanks {
+      display: none;
+      text-align: center;
+      color: #28a745;
+      margin-top: 20px;
+      font-size: 18px;
+      font-weight: bold;
+    }
   </style>
 </head>
 <body>
+  <div class="container">
+    <h2>We’d Love Your Feedback! 💬</h2>
+    <form id="feedbackForm">
+      <label>Name</label>
+      <input type="text" name="name" required>
 
-<h2>Feedback – Mom's Kitchen 🍽️</h2>
+      <label>Order ID</label>
+      <input type="text" name="orderId" required>
 
-<form id="feedback-form">
-  <input type="text" name="name" placeholder="Your Name" required>
-  <input type="text" name="orderId" placeholder="Order ID (e.g., MOMS007)" required>
+      <label>Food Rating</label>
+      <select name="foodRating" required>
+        <option value="">— Choose —</option>
+        <option value="5">⭐️ ⭐️ ⭐️ ⭐️ ⭐️</option>
+        <option value="4">⭐️ ⭐️ ⭐️ ⭐️</option>
+        <option value="3">⭐️ ⭐️ ⭐️</option>
+        <option value="2">⭐️ ⭐️</option>
+        <option value="1">⭐️</option>
+      </select>
 
-  <label>Food Rating:</label>
-  <select name="foodRating" required>
-    <option value="">Choose</option>
-    <option>⭐</option>
-    <option>⭐⭐</option>
-    <option>⭐⭐⭐</option>
-    <option>⭐⭐⭐⭐</option>
-    <option>⭐⭐⭐⭐⭐</option>
-  </select>
+      <label>Service Rating</label>
+      <select name="serviceRating" required>
+        <option value="">— Choose —</option>
+        <option value="5">Excellent</option>
+        <option value="4">Good</option>
+        <option value="3">Average</option>
+        <option value="2">Poor</option>
+        <option value="1">Very Poor</option>
+      </select>
 
-  <label>Service Rating:</label>
-  <select name="serviceRating" required>
-    <option value="">Choose</option>
-    <option>⭐</option>
-    <option>⭐⭐</option>
-    <option>⭐⭐⭐</option>
-    <option>⭐⭐⭐⭐</option>
-    <option>⭐⭐⭐⭐⭐</option>
-  </select>
+      <label>Any Improvements?</label>
+      <textarea name="improvement" rows="3" placeholder="Your suggestions…"></textarea>
 
-  <textarea name="suggestions" rows="2" placeholder="Any suggestions?"></textarea>
-  <textarea name="message" rows="3" placeholder="Your message (optional)"></textarea>
+      <label>Additional Comments</label>
+      <textarea name="message" rows="3" placeholder="Anything else?"></textarea>
 
-  <button type="submit">Submit Feedback</button>
-</form>
+      <button type="submit">Submit Feedback</button>
+    </form>
+    <div class="thanks" id="thanksMessage">🎉 Thanks for your feedback!</div>
+  </div>
 
-<p id="response" class="success" style="display:none;">✅ Thank you! Your feedback has been submitted.</p>
-<p id="error" class="error" style="display:none;">❌ There was an error. Please try again later.</p>
+  <script>
+  const form = document.getElementById('feedbackForm');
+  const thanks = document.getElementById('thanksMessage');
 
-<script>
-const scriptURL = "https://script.google.com/macros/s/AKfycbyCmOqCQ8e-pN2wiDPM7P_5fSOFzk7vO2Zkm0-OwKQ0Z6CGFUH0VWbhpKY7zJS4xrqQQg/exec"; // Replace with your deployed Web App URL
-
-document.getElementById("feedback-form").addEventListener("submit", function(e) {
-  e.preventDefault();
-
-  document.getElementById("response").style.display = "none";
-  document.getElementById("error").style.display = "none";
-
-  const form = e.target;
-  const data = Object.fromEntries(new FormData(form));
-
-  fetch(scriptURL, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(data)
-  })
-  .then(res => res.json())
-  .then(response => {
-    if (response.status === "success") {
-      document.getElementById("response").style.display = "block";
-      form.reset();
-    } else {
-      document.getElementById("error").textContent = "❌ " + (response.message || "Submission failed");
-      document.getElementById("error").style.display = "block";
-    }
-  })
-  .catch(() => {
-    document.getElementById("error").style.display = "block";
+  form.addEventListener('submit', function(e) {
+    e.preventDefault();
+    const data = Object.fromEntries(new FormData(form));
+    fetch('https://script.google.com/macros/s/AKfycbyCmOqCQ8e-pN2wiDPM7P_5fSOFzk7vO2Zkm0-OwKQ0Z6CGFUH0VWbhpKY7zJS4xrqQQg/exec, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data)
+    })
+    .then(resp => resp.json())
+    .then(res => {
+      if (res.status === 'success') {
+        form.style.display = 'none';
+        thanks.style.display = 'block';
+      } else {
+        alert('Error: ' + (res.message || 'Submit failed.'));
+      }
+    })
+    .catch(err => {
+      alert('There was an error submitting your feedback. Try again later.');
+      console.error(err);
+    });
   });
-});
-</script>
 
+  // Pre-fill Name & Order ID
+  const params = new URLSearchParams(window.location.search);
+  if (params.get('name')) form.name.value = decodeURIComponent(params.get('name'));
+  if (params.get('orderId')) form.orderId.value = params.get('orderId');
+  </script>
 </body>
 </html>
