@@ -114,7 +114,7 @@
   form.addEventListener('submit', function(e) {
     e.preventDefault();
     const data = Object.fromEntries(new FormData(form));
-    fetch('https://script.google.com/macros/s/AKfycbzyz-qb5d8dgxAVd4sPkhrF5LpEueEWKkd32O_utjxFlobEIBwFrOO5PQ222SLMKq4N/exec', {
+    fetch('https://script.google.com/macros/s/AKfycbyCmOqCQ8e-pN2wiDPM7P_5fSOFzk7vO2Zkm0-OwKQ0Z6CGFUH0VWbhpKY7zJS4xrqQQg/exec', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(data)
