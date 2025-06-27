@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -77,14 +76,24 @@
       <label>Order ID</label>
       <input type="text" name="orderId" required>
 
-      <label>Food Rating</label>
+       <label>Food Rating</label>
       <select name="foodRating" required>
         <option value="">— Choose —</option>
-        <option value="5">⭐️ ⭐️ ⭐️ ⭐️ ⭐️</option>
-        <option value="4">⭐️ ⭐️ ⭐️ ⭐️</option>
-        <option value="3">⭐️ ⭐️ ⭐️</option>
-        <option value="2">⭐️ ⭐️</option>
+        <option value="5">⭐️⭐️⭐️⭐️⭐️</option>
+        <option value="4">⭐️⭐️⭐️⭐️</option>
+        <option value="3">⭐️⭐️⭐️</option>
+        <option value="2">⭐️⭐️</option>
         <option value="1">⭐️</option>
+      </select>
+
+      <label>Taste Rating</label>
+      <select name="tasteRating" required>
+        <option value="">— Choose —</option>
+        <option value="Delicious">Delicious</option>
+        <option value="Good">Good</option>
+        <option value="Average">Average</option>
+        <option value="Below Average">Below Average</option>
+        <option value="Poor">Poor</option>
       </select>
 
       <label>Service Rating</label>
@@ -97,6 +106,32 @@
         <option value="1">Very Poor</option>
       </select>
 
+      <label>Packaging Quality</label>
+      <select name="packagingRating" required>
+        <option value="">— Choose —</option>
+        <option value="5">Excellent</option>
+        <option value="4">Good</option>
+        <option value="3">Average</option>
+        <option value="2">Poor</option>
+        <option value="1">Very Poor</option>
+      </select>
+
+      <label>Delivery Speed</label>
+      <select name="deliveryRating" required>
+        <option value="">— Choose —</option>
+        <option value="Fast">Fast</option>
+        <option value="On Time">On Time</option>
+        <option value="Slow">Slow</option>
+      </select>
+
+      <label>Value for Money</label>
+      <select name="valueRating" required>
+        <option value="">— Choose —</option>
+        <option value="Excellent">Excellent</option>
+        <option value="Good">Good</option>
+        <option value="Fair">Fair</option>
+        <option value="Poor">Poor</option>
+      </select>
       <label>Any Improvements?</label>
       <textarea name="improvement" rows="3" placeholder="Your suggestions…"></textarea>
 
