@@ -1,176 +1,196 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Feedback Form</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Feedback Form - The Mom's Kitchen</title>
   <style>
     body {
-      margin: 0; padding: 20px;
-      background-color: #fff7e6;
-      font-family: 'Segoe UI', sans-serif;
+      font-family: Arial, sans-serif;
+      background: #fff8f4;
+      padding: 20px;
+      color: #333;
     }
     .container {
-      background: white;
+      max-width: 500px;
+      margin: auto;
+      padding: 25px;
+      background: #ffffff;
       border-radius: 12px;
-      padding: 20px;
-      margin: 0 auto;
-      max-width: 480px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    img.logo {
+      display: block;
+      margin: 0 auto 20px;
+      width: 120px;
     }
     h2 {
       text-align: center;
-      color: #e07a5f;
-      margin-bottom: 16px;
+      color: #d35400;
     }
     label {
-      margin-top: 12px;
       display: block;
-      font-weight: 600;
-      color: #333;
+      margin: 10px 0 5px;
+      font-weight: bold;
     }
     input, select, textarea, button {
       width: 100%;
-      box-sizing: border-box;
-    }
-    input, select, textarea {
       padding: 10px;
-      margin-top: 6px;
+      margin-bottom: 15px;
       border: 1px solid #ccc;
       border-radius: 6px;
-      font-size: 16px;
-    }
-    textarea {
-      resize: vertical;
+      font-size: 1em;
     }
     button {
-      padding: 12px;
-      margin-top: 20px;
-      background: #e07a5f;
+      background-color: #d35400;
       color: white;
       border: none;
-      border-radius: 6px;
-      font-size: 16px;
-      font-weight: bold;
+      cursor: pointer;
     }
-    button:active {
-      background: #cf6a4e;
+    button:hover {
+      background-color: #e67e22;
     }
-    .thanks {
-      display: none;
+    .success, .error {
       text-align: center;
-      color: #28a745;
-      margin-top: 20px;
-      font-size: 18px;
-      font-weight: bold;
+      margin-top: 10px;
+    }
+    .success {
+      color: green;
+    }
+    .error {
+      color: red;
     }
   </style>
 </head>
 <body>
   <div class="container">
-    <h2>We’d Love Your Feedback! 💬</h2>
-    <form id="feedbackForm">
-      <label>Name</label>
-      <input type="text" name="name" required>
+    <img src="https://i.imgur.com/BpF4z9t.png" alt="The Mom's Kitchen Logo" class="logo" />
+    <h2>Feedback Form</h2>
+    <form id="feedback-form">
+      <label for="name">Your Name</label>
+      <input type="text" id="name" name="name" required />
 
-      <label>Order ID</label>
-      <input type="text" name="orderId" required>
+      <label for="email">Your Email</label>
+      <input type="email" id="email" name="email" required />
 
-       <label>Food Rating</label>
-      <select name="foodRating" required>
-        <option value="">— Choose —</option>
-        <option value="5">⭐️⭐️⭐️⭐️⭐️</option>
-        <option value="4">⭐️⭐️⭐️⭐️</option>
-        <option value="3">⭐️⭐️⭐️</option>
-        <option value="2">⭐️⭐️</option>
-        <option value="1">⭐️</option>
+      <label for="orderId">Order ID</label>
+      <input type="text" id="orderId" name="orderId" required />
+
+      <label for="foodRating">Food Rating</label>
+      <select id="foodRating" name="foodRating" required>
+        <option value="" disabled selected>Select</option>
+        <option>1 - Poor</option>
+        <option>2 - Fair</option>
+        <option>3 - Good</option>
+        <option>4 - Very Good</option>
+        <option>5 - Excellent</option>
       </select>
 
-      <label>Taste Rating</label>
-      <select name="tasteRating" required>
-        <option value="">— Choose —</option>
-        <option value="Delicious">Delicious</option>
-        <option value="Good">Good</option>
-        <option value="Average">Average</option>
-        <option value="Below Average">Below Average</option>
-        <option value="Poor">Poor</option>
+      <label for="tasteRating">Taste Rating</label>
+      <select id="tasteRating" name="tasteRating" required>
+        <option value="" disabled selected>Select</option>
+        <option>1 - Poor</option>
+        <option>2 - Fair</option>
+        <option>3 - Good</option>
+        <option>4 - Very Good</option>
+        <option>5 - Excellent</option>
       </select>
 
-      <label>Service Rating</label>
-      <select name="serviceRating" required>
-        <option value="">— Choose —</option>
-        <option value="5">Excellent</option>
-        <option value="4">Good</option>
-        <option value="3">Average</option>
-        <option value="2">Poor</option>
-        <option value="1">Very Poor</option>
+      <label for="serviceRating">Service Rating</label>
+      <select id="serviceRating" name="serviceRating" required>
+        <option value="" disabled selected>Select</option>
+        <option>1 - Poor</option>
+        <option>2 - Fair</option>
+        <option>3 - Good</option>
+        <option>4 - Very Good</option>
+        <option>5 - Excellent</option>
       </select>
 
-      <label>Packaging Quality</label>
-      <select name="packagingRating" required>
-        <option value="">— Choose —</option>
-        <option value="5">Excellent</option>
-        <option value="4">Good</option>
-        <option value="3">Average</option>
-        <option value="2">Poor</option>
-        <option value="1">Very Poor</option>
+      <label for="quality">Food Quality</label>
+      <select id="quality" name="quality" required>
+        <option value="" disabled selected>Select</option>
+        <option>1 - Poor</option>
+        <option>2 - Fair</option>
+        <option>3 - Good</option>
+        <option>4 - Very Good</option>
+        <option>5 - Excellent</option>
       </select>
 
-      <label>Delivery Speed</label>
-      <select name="deliveryRating" required>
-        <option value="">— Choose —</option>
-        <option value="Fast">Fast</option>
-        <option value="On Time">On Time</option>
-        <option value="Slow">Slow</option>
+      <label for="deliverySpeed">Delivery Speed</label>
+      <select id="deliverySpeed" name="deliverySpeed" required>
+        <option value="" disabled selected>Select</option>
+        <option>1 - Slow</option>
+        <option>2 - Below Average</option>
+        <option>3 - Average</option>
+        <option>4 - Fast</option>
+        <option>5 - Very Fast</option>
       </select>
 
-      <label>Value for Money</label>
-      <select name="valueRating" required>
-        <option value="">— Choose —</option>
-        <option value="Excellent">Excellent</option>
-        <option value="Good">Good</option>
-        <option value="Fair">Fair</option>
-        <option value="Poor">Poor</option>
+      <label for="valueForMoney">Value for Money</label>
+      <select id="valueForMoney" name="valueForMoney" required>
+        <option value="" disabled selected>Select</option>
+        <option>1 - Not Worth</option>
+        <option>2 - Below Average</option>
+        <option>3 - Okay</option>
+        <option>4 - Good</option>
+        <option>5 - Excellent</option>
       </select>
-      <label>Any Suggetions?</label>
-      <textarea name="improvement" rows="3" placeholder="Your suggestions…"></textarea>
+
+      <label for="suggestion">Any Suggestions?</label>
+      <textarea id="suggestion" name="suggestion" rows="4" placeholder="Write your comments here..."></textarea>
 
       <button type="submit">Submit Feedback</button>
+      <div class="success" id="success-msg"></div>
+      <div class="error" id="error-msg"></div>
     </form>
-    <div class="thanks" id="thanksMessage">🎉 Thanks for your feedback!</div>
   </div>
 
   <script>
-  const form = document.getElementById('feedbackForm');
-  const thanks = document.getElementById('thanksMessage');
+    const form = document.getElementById("feedback-form");
+    const successMsg = document.getElementById("success-msg");
+    const errorMsg = document.getElementById("error-msg");
 
-  form.addEventListener('submit', function(e) {
-    e.preventDefault();
-    const data = Object.fromEntries(new FormData(form));
-    fetch('https://script.google.com/macros/s/AKfycbyCmOqCQ8e-pN2wiDPM7P_5fSOFzk7vO2Zkm0-OwKQ0Z6CGFUH0VWbhpKY7zJS4xrqQQg/exec, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(data)
-    })
-    .then(resp => resp.json())
-    .then(res => {
-      if (res.status === 'success') {
-        form.style.display = 'none';
-        thanks.style.display = 'block';
-      } else {
-        alert('Error: ' + (res.message || 'Submit failed.'));
-      }
-    })
-    .catch(err => {
-      alert('There was an error submitting your feedback. Try again later.');
-      console.error(err);
+    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyCmOqCQ8e-pN2wiDPM7P_5fSOFzk7vO2Zkm0-OwKQ0Z6CGFUH0VWbhpKY7zJS4xrqQQg/exec";
+
+    form.addEventListener("submit", e => {
+      e.preventDefault();
+
+      const data = {
+        name: form.name.value,
+        email: form.email.value,
+        orderId: form.orderId.value,
+        foodRating: form.foodRating.value,
+        tasteRating: form.tasteRating.value,
+        serviceRating: form.serviceRating.value,
+        quality: form.quality.value,
+        deliverySpeed: form.deliverySpeed.value,
+        valueForMoney: form.valueForMoney.value,
+        suggestion: form.suggestion.value
+      };
+
+      fetch(SCRIPT_URL, {
+        method: "POST",
+        body: JSON.stringify(data),
+        headers: {
+          "Content-Type": "application/json"
+        }
+      })
+      .then(res => res.json())
+      .then(response => {
+        if (response.result === "success") {
+          successMsg.textContent = "Thank you for your feedback!";
+          errorMsg.textContent = "";
+          form.reset();
+        } else {
+          throw new Error("Submission failed");
+        }
+      })
+      .catch(err => {
+        successMsg.textContent = "";
+        errorMsg.textContent = "There was an error submitting your feedback. Please try again.";
+        console.error(err);
+      });
     });
-  });
-
-  // Pre-fill Name & Order ID
-  const params = new URLSearchParams(window.location.search);
-  if (params.get('name')) form.name.value = decodeURIComponent(params.get('name'));
-  if (params.get('orderId')) form.orderId.value = params.get('orderId');
   </script>
 </body>
 </html>
