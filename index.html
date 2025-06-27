@@ -142,29 +142,36 @@
   <div id="popup"><h3>Thank you for your feedback!</h3></div>
 
   <script>
-    const SCRIPT_URL = "YOUR_SCRIPT_URL";
-    const form = document.getElementById("feedback-form");
-    const popup = document.getElementById("popup");
+  const SCRIPT_URL = "YOUR_SCRIPT_URL"; // Replace with deployed Apps Script URL
+  const form = document.getElementById("feedback-form");
+  const popup = document.getElementById("popup");
 
-    // Auto-fill name/orderId if stored in localStorage
-    document.getElementById("name").value = localStorage.getItem("username") || "Guest";
-    document.getElementById("orderId").value = localStorage.getItem("orderId") || "ORD123";
+  // Autofill values from localStorage (optional)
+  document.getElementById("name").value = localStorage.getItem("username") || "Guest";
+  document.getElementById("orderId").value = localStorage.getItem("orderId") || "ORD123";
 
-    form.addEventListener("submit", e => {
-      e.preventDefault();
-      const data = new FormData(form);
-      fetch(SCRIPT_URL, { method: 'POST', body: data })
-        .then(res => res.ok ? showPopup() : alert("Submission failed. Try again."))
-        .catch(err => alert("Error occurred"));
-    });
+  form.addEventListener("submit", e => {
+    e.preventDefault();
+    const formData = new FormData(form);
 
-    function showPopup() {
+    fetch(SCRIPT_URL, {
+      method: 'POST',
+      body: formData
+    })
+    .then(response => response.text())
+    .then(result => {
+      console.log("Success:", result);
       popup.style.display = 'block';
       setTimeout(() => {
         popup.style.display = 'none';
         form.reset();
       }, 3000);
-    }
-  </script>
+    })
+    .catch(error => {
+      console.error("Error!", error.message);
+      alert("There was an error submitting your feedback. Please try again.");
+    });
+  });
+</script>
 </body>
 </html>
