@@ -141,36 +141,63 @@
 
   <div id="popup"><h3>Thank you for your feedback!</h3></div>
 
-  <script>
-  const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzMZoZOk3xbvqbifCwskUfb3eoB8czv-_2t65aofd70TH6VL2b7tuLj-8R-5svjkxL2/exec"; // Replace with deployed Apps Script URL
-  const form = document.getElementById("feedback-form");
-  const popup = document.getElementById("popup");
+  <form id="feedback-form">
+  <input type="hidden" name="name" id="name" value="Guest">
+  <input type="hidden" name="orderId" id="orderId" value="ORD123">
+  
+  <label>Email: <input type="email" name="email" id="email" required></label><br>
+  <label>Food Rating: <input type="number" name="foodRating" required></label><br>
+  <label>Taste Rating: <input type="number" name="tasteRating" required></label><br>
+  <label>Service Rating: <input type="number" name="serviceRating" required></label><br>
+  <label>Quality: <input type="text" name="quality"></label><br>
+  <label>Delivery Speed: <input type="text" name="deliverySpeed"></label><br>
+  <label>Value for Money: <input type="text" name="valueForMoney"></label><br>
+  <label>Suggestions: <textarea name="suggestion"></textarea></label><br>
+  
+  <button type="submit">Submit</button>
+</form>
 
-  // Autofill values from localStorage (optional)
-  document.getElementById("name").value = localStorage.getItem("username") || "Guest";
-  document.getElementById("orderId").value = localStorage.getItem("orderId") || "ORD123";
+<div id="popup" style="display:none;">Thank you for your feedback!</div>
 
-  form.addEventListener("submit", e => {
+<script>
+  const SCRIPT_URL = "YOUR_DEPLOYED_SCRIPT_URL"; // Replace this
+
+  document.getElementById("feedback-form").addEventListener("submit", function (e) {
     e.preventDefault();
-    const formData = new FormData(form);
+
+    const data = {
+      name: document.getElementById("name").value,
+      email: document.getElementById("email").value,
+      orderId: document.getElementById("orderId").value,
+      foodRating: e.target.foodRating.value,
+      tasteRating: e.target.tasteRating.value,
+      serviceRating: e.target.serviceRating.value,
+      quality: e.target.quality.value,
+      deliverySpeed: e.target.deliverySpeed.value,
+      valueForMoney: e.target.valueForMoney.value,
+      suggestion: e.target.suggestion.value
+    };
 
     fetch(SCRIPT_URL, {
-      method: 'POST',
-      body: formData
+      method: "POST",
+      body: JSON.stringify(data),
+      headers: {
+        "Content-Type": "application/json"
+      }
     })
-    .then(response => response.text())
-    .then(result => {
-      console.log("Success:", result);
-      popup.style.display = 'block';
-      setTimeout(() => {
-        popup.style.display = 'none';
-        form.reset();
-      }, 3000);
-    })
-    .catch(error => {
-      console.error("Error!", error.message);
-      alert("There was an error submitting your feedback. Please try again.");
-    });
+      .then(response => response.text())
+      .then(res => {
+        console.log("Response:", res);
+        document.getElementById("popup").style.display = "block";
+        setTimeout(() => {
+          document.getElementById("popup").style.display = "none";
+          document.getElementById("feedback-form").reset();
+        }, 3000);
+      })
+      .catch(err => {
+        console.error("Error:", err);
+        alert("Error submitting feedback.");
+      });
   });
 </script>
 </body>
