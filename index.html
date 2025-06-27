@@ -50,15 +50,21 @@
     button:hover {
       background-color: #e67e22;
     }
-    .success, .error {
-      text-align: center;
-      margin-top: 10px;
+    #popup {
+      display: none;
+      position: fixed;
+      top: 30%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: #fff;
+      padding: 20px 30px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.3);
+      z-index: 1000;
     }
-    .success {
+    #popup h3 {
+      margin: 0;
       color: green;
-    }
-    .error {
-      color: red;
     }
   </style>
 </head>
@@ -67,17 +73,12 @@
     <img src="Assets/Black logo.png" class="logo" />
     <h2>Feedback Form</h2>
     <form id="feedback-form">
-      <label for="name">Your Name</label>
-      <input type="text" id="name" name="name" required />
-
-      <label for="email">Your Email</label>
-      <input type="email" id="email" name="email" required />
-
-      <label for="orderId">Order ID</label>
-      <input type="text" id="orderId" name="orderId" required />
+      <input type="text" id="name" name="name" placeholder="Your Name" required readonly />
+      <input type="text" id="orderId" name="orderId" placeholder="Order ID" required readonly />
+      <input type="email" id="email" name="email" placeholder="Your Email" required />
 
       <label for="foodRating">Food Rating</label>
-      <select id="foodRating" name="foodRating" required>
+      <select name="foodRating" required>
         <option value="" disabled selected>Select</option>
         <option value="5">⭐️⭐️⭐️⭐️⭐️</option>
         <option value="4">⭐️⭐️⭐️⭐️</option>
@@ -87,7 +88,7 @@
       </select>
 
       <label for="tasteRating">Taste Rating</label>
-      <select id="tasteRating" name="tasteRating" required>
+      <select name="tasteRating" required>
         <option value="" disabled selected>Select</option>
         <option value="Delicious">Delicious</option>
         <option value="Good">Good</option>
@@ -97,7 +98,7 @@
       </select>
 
       <label for="serviceRating">Service Rating</label>
-      <select id="serviceRating" name="serviceRating" required>
+      <select name="serviceRating" required>
         <option value="" disabled selected>Select</option>
         <option value="5">Excellent</option>
         <option value="4">Good</option>
@@ -107,7 +108,7 @@
       </select>
 
       <label for="quality">Food Quality</label>
-      <select id="quality" name="quality" required>
+      <select name="quality" required>
         <option value="" disabled selected>Select</option>
         <option value="5">Excellent</option>
         <option value="4">Good</option>
@@ -117,7 +118,7 @@
       </select>
 
       <label for="deliverySpeed">Delivery Speed</label>
-      <select id="deliverySpeed" name="deliverySpeed" required>
+      <select name="deliverySpeed" required>
         <option value="" disabled selected>Select</option>
         <option value="Fast">Fast</option>
         <option value="On Time">On Time</option>
@@ -125,69 +126,45 @@
       </select>
 
       <label for="valueForMoney">Value for Money</label>
-      <select id="valueForMoney" name="valueForMoney" required>
+      <select name="valueForMoney" required>
         <option value="" disabled selected>Select</option>
-       <option value="Excellent">Excellent</option>
+        <option value="Excellent">Excellent</option>
         <option value="Good">Good</option>
         <option value="Fair">Fair</option>
         <option value="Poor">Poor</option>
       </select>
 
-      <label for="suggestion">Any Suggestions?</label>
-      <textarea id="suggestion" name="suggestion" rows="4" placeholder="Write your comments here..."></textarea>
-
+      <textarea name="suggestion" placeholder="Any suggestions?" rows="3"></textarea>
       <button type="submit">Submit Feedback</button>
-      <div class="success" id="success-msg"></div>
-      <div class="error" id="error-msg"></div>
     </form>
   </div>
 
-  <script>
-    const form = document.getElementById("feedback-form");
-    const successMsg = document.getElementById("success-msg");
-    const errorMsg = document.getElementById("error-msg");
+  <div id="popup"><h3>Thank you for your feedback!</h3></div>
 
-    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzMZoZOk3xbvqbifCwskUfb3eoB8czv-_2t65aofd70TH6VL2b7tuLj-8R-5svjkxL2/exec";
+  <script>
+    const SCRIPT_URL = "YOUR_SCRIPT_URL";
+    const form = document.getElementById("feedback-form");
+    const popup = document.getElementById("popup");
+
+    // Auto-fill name/orderId if stored in localStorage
+    document.getElementById("name").value = localStorage.getItem("username") || "Guest";
+    document.getElementById("orderId").value = localStorage.getItem("orderId") || "ORD123";
 
     form.addEventListener("submit", e => {
       e.preventDefault();
-
-      const data = {
-        name: form.name.value,
-        email: form.email.value,
-        orderId: form.orderId.value,
-        foodRating: form.foodRating.value,
-        tasteRating: form.tasteRating.value,
-        serviceRating: form.serviceRating.value,
-        quality: form.quality.value,
-        deliverySpeed: form.deliverySpeed.value,
-        valueForMoney: form.valueForMoney.value,
-        suggestion: form.suggestion.value
-      };
-
-      fetch(SCRIPT_URL, {
-        method: "POST",
-        body: JSON.stringify(data),
-        headers: {
-          "Content-Type": "application/json"
-        }
-      })
-      .then(res => res.json())
-      .then(response => {
-        if (response.result === "success") {
-          successMsg.textContent = "Thank you for your feedback!";
-          errorMsg.textContent = "";
-          form.reset();
-        } else {
-          throw new Error("Submission failed");
-        }
-      })
-      .catch(err => {
-        successMsg.textContent = "";
-        errorMsg.textContent = "There was an error submitting your feedback. Please try again.";
-        console.error(err);
-      });
+      const data = new FormData(form);
+      fetch(SCRIPT_URL, { method: 'POST', body: data })
+        .then(res => res.ok ? showPopup() : alert("Submission failed. Try again."))
+        .catch(err => alert("Error occurred"));
     });
+
+    function showPopup() {
+      popup.style.display = 'block';
+      setTimeout(() => {
+        popup.style.display = 'none';
+        form.reset();
+      }, 3000);
+    }
   </script>
 </body>
 </html>
