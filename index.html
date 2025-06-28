@@ -1,84 +1,56 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Feedback Form</title>
   <style>
     body {
-      font-family: 'Segoe UI', sans-serif;
-      background: #fff7f2;
-      margin: 0;
-      padding: 20px;
-    }
-    .form-container {
-      max-width: 500px;
+      font-family: sans-serif;
+      padding: 15px;
+      max-width: 480px;
       margin: auto;
-      background: white;
-      padding: 25px;
-      border-radius: 12px;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-    }
-    img.logo {
-      display: block;
-      margin: 0 auto 20px;
-      max-width: 70px;
     }
     h2 {
       text-align: center;
-      color: #d35400;
     }
     label {
+      font-weight: bold;
       display: block;
-      margin: 10px 0 5px;
-      font-weight: 500;
+      margin-top: 10px;
     }
-    input[type="text"],
-    textarea,
-    select {
+    select, input[type="text"], textarea {
       width: 100%;
       padding: 8px;
-      margin-bottom: 15px;
-      border: 1px solid #ccc;
-      border-radius: 6px;
+      margin-top: 5px;
     }
-    input[type="checkbox"],
-    input[type="radio"] {
-      margin-right: 8px;
+    .checkbox, .radio {
+      margin-bottom: 5px;
     }
     button {
-      background-color: #e67e22;
+      margin-top: 15px;
+      padding: 10px;
+      width: 100%;
+      background-color: #e74c3c;
       color: white;
       border: none;
-      padding: 12px;
-      width: 100%;
-      border-radius: 6px;
       font-size: 16px;
-      cursor: pointer;
     }
-    button:hover {
-      background-color: #cf711f;
-    }
-    .thankyou {
-      display: none;
-      text-align: center;
-      color: green;
-      font-weight: bold;
-      margin-top: 20px;
+    img.logo {
+      max-width: 150px;
+      display: block;
+      margin: 0 auto 15px;
     }
   </style>
 </head>
 <body>
-
-<div class="form-container">
-  <img class="logo" src="Assets/Black logo.png" alt="Logo">
+  <img src="Assets/Black logo.png" alt="Logo" class="logo">
   <h2>💬 We'd really appreciate your feedback</h2>
-
-  <form id="feedback-form">
-    <label>Customer Name:</label>
+  <form id="feedbackForm">
+    <label>Name</label>
     <input type="text" name="name" id="name" readonly>
 
-    <label>Order ID:</label>
+    <label>Order ID</label>
     <input type="text" name="orderId" id="orderId" readonly>
 
     <label>1. How would you rate the taste of today’s food?</label>
@@ -92,68 +64,81 @@
     </select>
 
     <label>2. Would you like to receive our meal menus?</label>
-    <input type="radio" name="menuPreference" value="Daily updates" required>Daily updates<br>
-    <input type="radio" name="menuPreference" value="Weekly menus">Weekly menus<br>
-    <input type="radio" name="menuPreference" value="No">No<br>
+    <div class="radio">
+      <input type="radio" name="menuPreference" value="Daily updates" required> Daily updates<br>
+      <input type="radio" name="menuPreference" value="Weekly menus"> Weekly menus<br>
+      <input type="radio" name="menuPreference" value="No"> No<br>
+    </div>
 
     <label>3. Would your office be interested in regular meal plans?</label>
-    <input type="radio" name="officePlan" value="Yes – definitely" required>Yes – definitely<br>
-    <input type="radio" name="officePlan" value="Maybe – would like more info">Maybe – would like more info<br>
-    <input type="radio" name="officePlan" value="Not currently">Not currently<br>
+    <div class="radio">
+      <input type="radio" name="officePlan" value="Yes" required> Yes<br>
+      <input type="radio" name="officePlan" value="Maybe"> Maybe<br>
+      <input type="radio" name="officePlan" value="No"> No<br>
+    </div>
 
     <label>4. What kind of meals would your team prefer?</label>
-    <input type="checkbox" name="mealPreference" value="Breakfast Only">Breakfast Only<br>
-    <input type="checkbox" name="mealPreference" value="Lunch Only">Lunch Only<br>
-    <input type="checkbox" name="mealPreference" value="Both">Both Breakfast & Lunch<br>
-    <input type="checkbox" name="mealPreference" value="Healthy Options">Healthy / Low-Oil Options<br>
-    <input type="checkbox" name="mealPreference" value="Customised Plans">Customised Office Meal Plans<br>
-    <input type="checkbox" name="mealPreference" value="Bulk Orders">Occasional Bulk Orders<br>
+    <div class="checkbox">
+      <input type="checkbox" name="mealPreference" value="Breakfast Only"> Breakfast Only<br>
+      <input type="checkbox" name="mealPreference" value="Lunch Only"> Lunch Only<br>
+      <input type="checkbox" name="mealPreference" value="Both"> Both<br>
+      <input type="checkbox" name="mealPreference" value="Healthy Options"> Healthy Options<br>
+      <input type="checkbox" name="mealPreference" value="Customised Plans"> Customised Plans<br>
+      <input type="checkbox" name="mealPreference" value="Bulk Orders"> Bulk Orders<br>
+    </div>
 
     <label>5. What one word best describes your experience?</label>
-    <input type="text" name="experienceWord" placeholder="e.g., Fresh, Tasty" required>
+    <input type="text" name="experienceWord" placeholder="e.g., Tasty, Fresh" required>
 
     <label>6. Any suggestions or special requests?</label>
-    <textarea name="suggestions" rows="3" placeholder="We'd love to hear your ideas!"></textarea>
+    <textarea name="suggestions" rows="3" placeholder="We'd love to hear from you!"></textarea>
 
     <button type="submit">Submit Feedback</button>
-    <div class="thankyou" id="thankyou-msg">✅ Thank you for your feedback!</div>
   </form>
-</div>
 
-<script>
-  // Auto-fill from URL parameters
-  window.onload = function () {
-    const params = new URLSearchParams(window.location.search);
-    document.getElementById("name").value = params.get("name") || "";
-    document.getElementById("orderId").value = params.get("order") || "";
-  };
+  <script>
+    // Auto-fill name and orderId from URL
+    const urlParams = new URLSearchParams(window.location.search);
+    document.getElementById("name").value = urlParams.get("name") || "";
+    document.getElementById("orderId").value = urlParams.get("order") || "";
 
-  document.getElementById("feedback-form").addEventListener("submit", function (e) {
-    e.preventDefault();
-    const form = e.target;
-    const formData = new FormData(form);
-    const data = {};
-    formData.forEach((value, key) => {
-      if (data[key]) {
-        data[key] += `, ${value}`; // Handle multiple checkboxes
-      } else {
-        data[key] = value;
+    const form = document.getElementById("feedbackForm");
+
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const formData = new FormData(form);
+      const data = {};
+      formData.forEach((value, key) => {
+        if (data[key]) {
+          if (!Array.isArray(data[key])) {
+            data[key] = [data[key]];
+          }
+          data[key].push(value);
+        } else {
+          data[key] = value;
+        }
+      });
+
+      try {
+        const response = await fetch("https://script.google.com/macros/s/AKfycbwXpBwQJJ6iXKzdOFBpHM56HL8iDJPkyzSDtClZVYrJyixsfPG6FrdxxSeTdIFc1eM/exec", {
+          method: "POST",
+          body: JSON.stringify(data),
+          headers: {
+            "Content-Type": "application/json"
+          }
+        });
+
+        const result = await response.json();
+        if (result.success) {
+          alert("✅ Thank you! Your feedback has been submitted.");
+          form.reset();
+        } else {
+          alert("❌ Error submitting feedback. Please try again.");
+        }
+      } catch (err) {
+        alert("❌ Submission failed. Please check your internet and try again.");
       }
     });
-
-    fetch("https://script.google.com/macros/s/AKfycbxhnV_vozDAIr94-dUiQeMCYtNi7Nvmdd-EqZC5xEOlGcUlJY_bG1vLnfZC0MrNhXDT/exec", {
-      method: "POST",
-      mode: "no-cors",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(data),
-    }).then(() => {
-      document.getElementById("thankyou-msg").style.display = "block";
-      form.reset();
-    }).catch(err => {
-      alert("❌ Submission failed. Please try again.");
-    });
-  });
-</script>
-
+  </script>
 </body>
 </html>
