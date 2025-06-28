@@ -128,47 +128,47 @@
       <label>6. Any suggestions or special requests?</label>
       <textarea name="suggestions" rows="3" placeholder="We'd love to hear your ideas!"></textarea>
 
-      <button type="submit">Submit Feedback</button>
-    </form>
-  </div>
+     <button type="submit">Submit Feedback</button>
+  </form>
 
   <script>
-  const scriptURL = 'https://script.google.com/macros/s/YOUR-SCRIPT-ID/exec'; // Replace with your actual URL
+    document.getElementById("feedbackForm").addEventListener("submit", async function(e) {
+      e.preventDefault();
 
-  document.getElementById('feedback-form').addEventListener('submit', function(e) {
-    e.preventDefault();
+      const mealPrefs = [];
+      document.querySelectorAll('input[name="mealPref"]:checked').forEach(el => mealPrefs.push(el.value));
 
-    const form = e.target;
-    const formData = new FormData();
+      const data = {
+        name: document.getElementById("name").value,
+        orderId: document.getElementById("orderId").value,
+        tasteRating: document.getElementById("tasteRating").value,
+        menuPreference: document.querySelector('input[name="menuPreference"]:checked')?.value || "",
+        officePlan: document.querySelector('input[name="officePlan"]:checked')?.value || "",
+        mealPreferences: mealPrefs,
+        experienceWord: document.getElementById("experience").value,
+        suggestions: document.getElementById("suggestions").value
+      };
 
-    formData.append('name', form.name.value);
-    formData.append('orderId', form.orderId.value);
-    formData.append('tasteRating', form.tasteRating.value);
-    formData.append('menuPreference', form.menuPreference.value);
-    formData.append('officePlan', form.officePlan.value);
+      try {
+        const response = await fetch("https://script.google.com/macros/s/AKfycbzbw3cu0q0K6pTI_ovQPp2h7jnu4W_lvR3ZhZKBCfvNMENPv-gTaweTqB-xccZSIewd/exec", {
+          method: "POST",
+          body: JSON.stringify(data),
+          headers: {
+            "Content-Type": "application/json"
+          }
+        });
 
-    const mealPrefs = Array.from(form.querySelectorAll('input[name="mealPreference"]:checked'))
-                            .map(cb => cb.value).join(', ');
-    formData.append('mealPreferences', mealPrefs);
-    formData.append('experienceWord', form.experienceWord.value);
-    formData.append('suggestions', form.suggestions.value);
-
-    fetch(scriptURL, {
-      method: 'POST',
-      body: formData
-    })
-    .then(response => {
-      if (response.ok) {
-        alert("✅ Thank you! Your feedback has been submitted.");
-        form.reset();
-      } else {
-        alert("❌ Submission failed. Please check your Apps Script settings.");
+        const result = await response.json();
+        if (result.result === "success") {
+          alert("✅ Thank you! Feedback submitted.");
+          document.getElementById("feedbackForm").reset();
+        } else {
+          alert("❌ Submission failed. Please try again.");
+        }
+      } catch (error) {
+        alert("❌ Submission error: " + error.message);
       }
-    })
-    .catch(error => {
-      alert("❌ Submission failed. Error: " + error.message);
     });
-  });
-</script>
+  </script>
 </body>
 </html>
