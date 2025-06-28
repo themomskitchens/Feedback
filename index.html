@@ -133,41 +133,42 @@
   </div>
 
   <script>
-    const scriptURL = 'https://script.google.com/macros/s/AKfycbzD3D2Y5KLWz2sWMO2ywtphaUVDUj1GpV128V1aYUlnNHO311oKkLVmNE43BKkRByz6/exec'; // Replace with your Apps Script URL
+  const scriptURL = 'https://script.google.com/macros/s/YOUR-SCRIPT-ID/exec'; // Replace with your actual URL
 
-    document.getElementById('feedback-form').addEventListener('submit', function(e) {
-      e.preventDefault();
-      const form = e.target;
+  document.getElementById('feedback-form').addEventListener('submit', function(e) {
+    e.preventDefault();
 
-      const mealPrefs = Array.from(form.querySelectorAll('input[name="mealPreference"]:checked'))
+    const form = e.target;
+    const formData = new FormData();
+
+    formData.append('name', form.name.value);
+    formData.append('orderId', form.orderId.value);
+    formData.append('tasteRating', form.tasteRating.value);
+    formData.append('menuPreference', form.menuPreference.value);
+    formData.append('officePlan', form.officePlan.value);
+
+    const mealPrefs = Array.from(form.querySelectorAll('input[name="mealPreference"]:checked'))
                             .map(cb => cb.value).join(', ');
+    formData.append('mealPreferences', mealPrefs);
+    formData.append('experienceWord', form.experienceWord.value);
+    formData.append('suggestions', form.suggestions.value);
 
-      const data = {
-        name: form.name.value,
-        orderId: form.orderId.value,
-        tasteRating: form.tasteRating.value,
-        menuPreference: form.menuPreference.value,
-        officePlan: form.officePlan.value,
-        mealPreferences: mealPrefs,
-        experienceWord: form.experienceWord.value,
-        suggestions: form.suggestions.value
-      };
-
-      fetch(scriptURL, {
-        method: 'POST',
-        body: JSON.stringify(data),
-        headers: { 'Content-Type': 'application/json' }
-      })
-      .then(response => {
+    fetch(scriptURL, {
+      method: 'POST',
+      body: formData
+    })
+    .then(response => {
+      if (response.ok) {
         alert("✅ Thank you! Your feedback has been submitted.");
         form.reset();
-      })
-      .catch(error => {
-        alert("❌ Submission failed. Please try again.");
-        console.error('Error!', error.message);
-      });
+      } else {
+        alert("❌ Submission failed. Please check your Apps Script settings.");
+      }
+    })
+    .catch(error => {
+      alert("❌ Submission failed. Error: " + error.message);
     });
-  </script>
-
+  });
+</script>
 </body>
 </html>
