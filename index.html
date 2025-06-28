@@ -147,6 +147,16 @@
         suggestions: formData.get("suggestions")
       };
 
+      // Autofill Name and Order ID from URL parameters
+window.onload = function () {
+  const params = new URLSearchParams(window.location.search);
+  const name = params.get("name");
+  const order = params.get("order");
+
+  if (name) document.getElementById("name").value = name;
+  if (order) document.getElementById("orderId").value = order;
+};
+
       try {
         const response = await fetch("https://script.google.com/macros/s/AKfycbwXpBwQJJ6iXKzdOFBpHM56HL8iDJPkyzSDtClZVYrJyixsfPG6FrdxxSeTdIFc1eM/exec", {
           method: "POST",
