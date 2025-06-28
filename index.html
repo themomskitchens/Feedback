@@ -24,7 +24,7 @@
       padding: 8px;
       margin-top: 5px;
     }
-    .checkbox, .radio {
+    .checkbox {
       margin-bottom: 5px;
     }
     button {
@@ -64,18 +64,20 @@
     </select>
 
     <label>2. Would you like to receive our meal menus?</label>
-    <div class="radio">
-      <input type="radio" name="menuPreference" value="Daily updates" required> Daily updates<br>
-      <input type="radio" name="menuPreference" value="Weekly menus"> Weekly menus<br>
-      <input type="radio" name="menuPreference" value="No"> No<br>
-    </div>
+    <select name="menuPreference" required>
+      <option value="">-- Select Option --</option>
+      <option value="Daily updates">Daily updates</option>
+      <option value="Weekly menus">Weekly menus</option>
+      <option value="No">No</option>
+    </select>
 
     <label>3. Would your office be interested in regular meal plans?</label>
-    <div class="radio">
-      <input type="radio" name="officePlan" value="Yes" required> Yes<br>
-      <input type="radio" name="officePlan" value="Maybe"> Maybe<br>
-      <input type="radio" name="officePlan" value="No"> No<br>
-    </div>
+    <select name="officePlan" required>
+      <option value="">-- Select Option --</option>
+      <option value="Yes">Yes</option>
+      <option value="Maybe">Maybe</option>
+      <option value="No">No</option>
+    </select>
 
     <label>4. What kind of meals would your team prefer?</label>
     <div class="checkbox">
@@ -97,7 +99,7 @@
   </form>
 
   <script>
-    // Auto-fill name and orderId from URL
+    // Autofill name and orderId from URL
     const urlParams = new URLSearchParams(window.location.search);
     document.getElementById("name").value = urlParams.get("name") || "";
     document.getElementById("orderId").value = urlParams.get("order") || "";
